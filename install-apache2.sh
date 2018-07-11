@@ -38,46 +38,44 @@
 ##################################################################################
 
 
-r="\e[1;32m"
-c="\e[1;36m"
-e="\e[0m"
+
 clear
-echo -e $r"This amazing script was made by:$e"
-echo -e $r' __   __   __  __    __   _______   ______   ______ ____    ______   _______  '$e
-echo -e $r'|  \ |  \ |  \|  \  |  \ /       \ /      \ |      \    \  |      \ |       \ '$e
-echo -e $r'| $$ | $$ | $$| $$  | $$|  $$$$$$$|  $$$$$$\| $$$$$$\$$$$\  \$$$$$$\| $$$$$$$\'$e
-echo -e $r'| $$ | $$ | $$| $$  | $$ \$$    \ | $$    $$| $$ | $$ | $$ /      $$| $$  | $$'$e
-echo -e $r'| $$_/ $$_/ $$| $$__/ $$ _\$$$$$$\| $$$$$$$$| $$ | $$ | $$|  $$$$$$$| $$  | $$'$e
-echo -e $r' \$$   $$   $$ \$$    $$|       $$ \$$     \| $$ | $$ | $$ \$$    $$| $$  | $$'$e
-echo -e $r'  \$$$$$\$$$$   \$$$$$$  \$$$$$$$   \$$$$$$$ \$$  \$$  \$$  \$$$$$$$ \$$   \$$'$e
-echo -e $r''$e
-echo -e $c'                                                                        enjoy!'$e
-echo -e "\n================================================================================"
-echo -e $r"Please wait...Updating repository.."$e
-echo -e "================================================================================"
+echo "This amazing script was made by:$e"
+echo ' __   __   __  __    __   _______   ______   ______ ____    ______   _______  '
+echo '|  \ |  \ |  \|  \  |  \ /       \ /      \ |      \    \  |      \ |       \ '
+echo '| $$ | $$ | $$| $$  | $$|  $$$$$$$|  $$$$$$\| $$$$$$\$$$$\  \$$$$$$\| $$$$$$$\'
+echo '| $$ | $$ | $$| $$  | $$ \$$    \ | $$    $$| $$ | $$ | $$ /      $$| $$  | $$'
+echo '| $$_/ $$_/ $$| $$__/ $$ _\$$$$$$\| $$$$$$$$| $$ | $$ | $$|  $$$$$$$| $$  | $$'
+echo ' \$$   $$   $$ \$$    $$|       $$ \$$     \| $$ | $$ | $$ \$$    $$| $$  | $$'
+echo '  \$$$$$\$$$$   \$$$$$$  \$$$$$$$   \$$$$$$$ \$$  \$$  \$$  \$$$$$$$ \$$   \$$'
+echo ''$e
+echo '                                                                        enjoy!'
+echo "================================================================================"
+echo "Please wait...Updating repository.."$e
+echo "================================================================================"
 apt-get update 
 
-echo -e "\n================================================================================"
-echo -e $c"Please wait...Checking for new package upgrades.."$e
-echo -e "================================================================================"
+echo "================================================================================"
+echo "Please wait...Checking for new package upgrades.."$e
+echo "================================================================================"
 apt-get upgrade -y
 
-echo -e "\n================================================================================"
-echo -e $c"Installing apache2 mysql-server php libapache2-mod-php"$e
-echo -e $c"php-mcrypt php-mysql for you......"$e
-echo -e "================================================================================"
+echo "================================================================================"
+echo "Installing apache2 mysql-server php libapache2-mod-php"$e
+echo "php-mcrypt php-mysql for you......"$e
+echo "================================================================================"
 apt-get install apache2 mysql-server php libapache2-mod-php php-mcrypt php-mysql -y
 
-echo -e "\n================================================================================"
-echo -e $c"Enabling ssl module..."$e
-echo -e "================================================================================"
+echo "================================================================================"
+echo "Enabling ssl module..."$e
+echo "================================================================================"
 a2enmod ssl
 
-echo -e "\n================================================================================"
-echo -e $c"Adding some settings for your security..."$e
-echo -e $c"Adding new user and group for your apache2 setup"$e
-echo -e "================================================================================"
-echo -e "....Done"
+echo "================================================================================"
+echo "Adding some settings for your security..."$e
+echo "Adding new user and group for your apache2 setup"$e
+echo "================================================================================"
+echo "....Done"
 groupadd http-wuseman
 useradd -d /var/www/ -g http-wuseman -s /bin/nologin http-wuseman
 
@@ -85,41 +83,41 @@ sed -i s/'${APACHE_RUN_USER}'/'http-wuseman'/g /etc/apache2/apache2.conf
 sed -i s/'${APACHE_RUN_GROUP}'/'http-wuseman'/g /etc/apache2/apache2.conf
 echo -e "ServerSignature Off\nServerTokens Prod" >> /etc/apache2/apache2.conf
 chown -R http-wuseman:http-wuseman /var/www
-echo -e "\n================================================================================"
-echo -e $c"Installing modsecurity..."$e
-echo -e "================================================================================"
+echo "================================================================================"
+echo "Installing modsecurity..."$e
+echo "================================================================================"
 apt-get install libapache2-modsecurity
 a2enmod mod-security
 
-echo -e "\n================================================================================"
-echo -e $c"Please wait...Restarting apache2.."$e
-echo -e "================================================================================"
+echo "================================================================================"
+echo "Please wait...Restarting apache2.."$e
+echo "================================================================================"
 service apache2 restart
    mkdir /etc/apache2/ssl
 a2ensite default-ssl.conf
 service apache2 restart
 
-echo -e "\n================================================================================"
-echo -e $c"Please answer the questions to secure your mysql setup..."$e
-echo -e "================================================================================"
+echo "================================================================================"
+echo "Please answer the questions to secure your mysql setup..."$e
+echo "================================================================================"
 mysql_secure_installation
   echo -e "<IfModule mod_dir.c>\nDirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm\n</IfModule>" >  /etc/apache2/mods-enabled/dir.conf
 sudo systemctl restart apache2
   echo -e "<?php\nphpinfo();\n?>" > /var/www/html/index.php
 
-echo -e "\n================================================================================"
-echo -e $c"Setting up letsencrypt for you.."$e
-echo -e "================================================================================"
+echo "================================================================================"
+echo "Setting up letsencrypt for you.."$e
+echo "================================================================================"
 add-apt-repository ppa:certbot/certbot
 
-echo -e "\n================================================================================"
-echo -e $c"Please wait...Updating repository for letsencrypt."$e
-echo -e "================================================================================"
+echo "================================================================================"
+echo "Please wait...Updating repository for letsencrypt."$e
+echo "================================================================================"
 apt-get update
 apt-get install python-certbot-apache -y
 
-echo -e "\n================================================================================"
-echo -e $c"Please enter wich hostname to setup certificates for (max 1 host)"$e
-echo -e "================================================================================"
+echo "================================================================================"
+echo "Please enter wich hostname to setup certificates for (max 1 host)"$e
+echo "================================================================================"
 read -p "Hostname: " hostname 
 certbot --apache -d $hostname
