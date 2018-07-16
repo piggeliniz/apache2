@@ -1,3 +1,5 @@
+![Screenshot](/files/install-apache2.gif)
+
 # APACHE2 
 
 #### README
